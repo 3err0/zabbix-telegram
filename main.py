@@ -1,0 +1,63 @@
+#!/usr/bin/env python3.6
+# -*- coding: utf-8 -*-
+
+#import logging
+import config
+import telebot
+from telebot import apihelper, types
+from importer import Importer
+
+apihelper.proxy = {'https': config.proxy}
+
+bot = telebot.TeleBot(config.bot_token)
+
+#logger = telebot.logger
+#telebot.logger.setLevel(logging.DEBUG)
+
+def check_permission(uid):
+    user = str(uid)
+    for userid in config.users:
+        if userid == user:
+            return True
+        return False
+
+def file_ext(filename):
+    return filename.split(".")[-1]
+
+@bot.message_handler(commands=['help', 'start'])
+def send_welcome(message):
+    bot.reply_to(message, "Я тупая машина, и я ничего не умею")
+
+@bot.message_handler(func=lambda message: True)
+def echo_message(message):
+    bot.reply_to(message, message.text)
+
+@bot.message_handler(content_types=['document'])
+def handle_file(message):
+    try:
+        if check_permission(message.from_user.id):
+            file_info = bot.get_file(message.document.file_id)
+            downloaded_file = bot.download_file(file_info.file_path)
+
+            if file_ext(message.document.file_name) == 'csv':
+                src='/media/'+message.document.file_name;
+                with open(src, 'wb') as new_file:
+                    new_file.write(downloaded_file)
+                bot.reply_to(message,"Added\n"+src)
+                imp = Importer(src, config.zabbix_user, config.zabbix_pass, config.zabbix_api)
+                imp.create_host()
+                bot.reply_to(message, imp.debug)
+            else:
+                bot.reply_to(message, "What is it?")
+        else:
+            bot.send_message(message.chat.id, 'Тебе сюда нельзя. Твой ID: ' + str(message.chat.id))
+    except Exception as e:
+        bot.reply_to(message,e )
+
+#while True:
+#   try:
+#       bot.polling(none_stop=True, interval=0, timeout=10)
+#   except Exception as e:
+#       print(e)
+#       time.sleep(15)
+bot.polling(none_stop=True, interval=0, timeout=10)
