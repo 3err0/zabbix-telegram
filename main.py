@@ -29,6 +29,10 @@ def file_ext(filename):
 def send_welcome(message):
     bot.reply_to(message, "Я тупая машина, и я ничего не умею")
 
+@bot.message_handler(commands=['id', 'myid'])
+def my_id(message):
+	bot.send_message(message.chat.id, 'Твой ID: ' + str(message.chat.id))
+
 @bot.message_handler(func=lambda message: True)
 def echo_message(message):
     bot.reply_to(message, message.text)
