@@ -16,11 +16,9 @@ bot = telebot.TeleBot(config.bot_token)
 #telebot.logger.setLevel(logging.DEBUG)
 
 def check_permission(uid):
-    user = str(uid)
-    for userid in config.users:
-        if userid == user:
-            return True
-        return False
+	if uid not in config.users:
+		return False
+	return True
 
 def file_ext(filename):
     return filename.split(".")[-1]
