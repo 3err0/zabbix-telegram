@@ -56,7 +56,7 @@ def handle_file(message):
             else:
                 bot.reply_to(message, "What is it?")
         else:
-            bot.send_message(message.chat.id, 'Тебе сюда нельзя. Твой ID: ' + str(message.chat.id))
+            pass
     except Exception as e:
         bot.reply_to(message,e )
 
