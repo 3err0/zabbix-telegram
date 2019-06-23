@@ -58,10 +58,11 @@ def handle_file(message):
     except Exception as e:
         bot.reply_to(message,e )
 
-#while True:
-#   try:
-#       bot.polling(none_stop=True, interval=0, timeout=10)
-#   except Exception as e:
-#       print(e)
-#       time.sleep(15)
-bot.polling(none_stop=True, interval=0, timeout=10)
+try:
+	pid = str(os.getpid())
+	pidfile = open(config.pid, 'w')
+	pidfile.write(pid)
+	pidfile.close()
+	bot.polling(none_stop=True, interval=0, timeout=10)
+except:
+	pass
