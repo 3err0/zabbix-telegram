@@ -41,7 +41,7 @@ def handle_file(message):
             downloaded_file = bot.download_file(file_info.file_path)
 
             if file_ext(message.document.file_name) == 'csv':
-                src='/media/'+message.document.file_name;
+                src='/tmp/'+message.document.file_name;
                 with open(src, 'wb') as new_file:
                     new_file.write(downloaded_file)
                 bot.reply_to(message,"Added\n"+src)
