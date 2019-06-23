@@ -6,6 +6,7 @@ import config
 import telebot
 from telebot import apihelper, types
 from importer import Importer
+import os
 
 apihelper.proxy = {'https': config.proxy}
 
@@ -46,6 +47,7 @@ def handle_file(message):
                 bot.reply_to(message,"Added\n"+src)
                 imp = Importer(src, config.zabbix_user, config.zabbix_pass, config.zabbix_api)
                 imp.create_host()
+                os.remove(src)
                 bot.reply_to(message, imp.debug)
             else:
                 bot.reply_to(message, "What is it?")
