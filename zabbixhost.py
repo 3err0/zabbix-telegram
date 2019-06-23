@@ -96,8 +96,8 @@ class ZabbixAPI:
             "jsonrpc": "2.0",
             "method": "host.create",
             "params": {
-                "host": interface_ip,
-                "name": hostname,
+                "host": hostname,
+                #"name": hostname,
                 "interfaces": [{
                     "type": 1,
                     "main": 1,
