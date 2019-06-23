@@ -64,5 +64,5 @@ try:
 	pidfile.write(pid)
 	pidfile.close()
 	bot.polling(none_stop=True, interval=0, timeout=10)
-except:
-	pass
+except Exception as e:
+	print(e)
