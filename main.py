@@ -44,7 +44,7 @@ def ping(message):
 	if not ip:
 		bot.send_message(message.chat.id, 'Используйте комманду /ping 127.0.0.1: ')
 	else:
-		resource = os.system("ping -c 1 " + ip)
+		resource = os.system("ping -c 1 -w 1 " + ip)
 		if resource == 0:
 			bot.reply_to(message, "Is UP")
 		else:
