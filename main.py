@@ -8,7 +8,8 @@ from telebot import apihelper, types
 from importer import Importer
 import os
 
-apihelper.proxy = {'https': config.proxy}
+if config.proxy:
+	apihelper.proxy = {'https': config.proxy_addr}
 
 bot = telebot.TeleBot(config.bot_token)
 
