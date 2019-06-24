@@ -58,11 +58,15 @@ def handle_file(message):
     except Exception as e:
         bot.reply_to(message,e )
 
-try:
+if __name__ == '__main__':
 	pid = str(os.getpid())
-	pidfile = open(config.pid, 'w')
-	pidfile.write(pid)
-	pidfile.close()
-	bot.polling(none_stop=True, interval=0, timeout=10)
-except Exception as e:
-	print(e)
+	pidf = config.pid
+	try:		
+		pidfile = open(pidf, 'w')
+		pidfile.write(pid)
+		pidfile.close()
+		bot.polling(none_stop=True, interval=0, timeout=10)
+	except Exception as e:
+		print(e)
+	finally:
+		os.remove(pidf)
