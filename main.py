@@ -24,6 +24,12 @@ def check_permission(uid):
 def file_ext(filename):
     return filename.split(".")[-1]
 
+def extract_text(text):
+	try:
+		return text.split()[1]
+	except:
+		pass
+
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
     bot.reply_to(message, "Я тупая машина, и я ничего не умею")
@@ -31,6 +37,18 @@ def send_welcome(message):
 @bot.message_handler(commands=['id', 'myid'])
 def my_id(message):
 	bot.send_message(message.chat.id, 'Твой ID: ' + str(message.chat.id))
+
+@bot.message_handler(commands=['ping'])
+def ping(message):
+	ip = extract_text(message.text)
+	if not ip:
+		bot.send_message(message.chat.id, 'Используйте комманду /ping 127.0.0.1: ')
+	else:
+		resource = os.system("ping -c 1 " + ip)
+		if resource == 0:
+			bot.reply_to(message, "Is UP")
+		else:
+			bot.reply_to(message, "Is down")
 
 @bot.message_handler(func=lambda message: True)
 def echo_message(message):
