@@ -5,7 +5,7 @@ Wants=local-fs.target network-online.target network.target
 
 [Service]
 PIDFile=/var/run/zabbix/zabbix-telegram.pid
-ExecStart=/usr/bin/python3 /usr/local/bin/zabbix-telegram/main.py > /var/log/zabbix/zabbix-telegram.log
+ExecStart=/usr/bin/python3 /url/local/bin/zabbix-telegram/main.py
 ExecStop=/bin/kill $MAINPID
 KillMode=process
 Type=simple
