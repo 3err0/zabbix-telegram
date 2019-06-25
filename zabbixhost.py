@@ -115,3 +115,21 @@ class ZabbixAPI:
         # Create host with zabbix API by using POST
         response = requests.post(self.zabbix_url, parameter, headers=self.header).text
         print(response)
+
+    def get_host_id(self, hostname):
+    	self.host_id = []
+    	parameter = json.dumps({
+    		"jsonrpc": "2.0",
+    		"method": "host.get",
+    		"params": {
+    			"filter": {
+    				"host": hostname
+    			}
+    		},
+    		"auth": self.auth,
+    		"id": 1
+    	})
+    	response = requests.post(self.zabbix_url, parameter, headers=self.header).text
+    	for i in json.loads(response)['result']:
+            self.host_id.append(str(i['hostid']))
+    	print(self.host_id)
