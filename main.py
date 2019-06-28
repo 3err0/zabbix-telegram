@@ -32,7 +32,7 @@ def extract_text(text):
 
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
-    bot.reply_to(message, "Я тупая машина, и я ничего не умею")
+    bot.reply_to(message, "Enter me commands")
 
 @bot.message_handler(commands=['id', 'myid'])
 def my_id(message):
@@ -42,7 +42,7 @@ def my_id(message):
 def ping(message):
 	ip = extract_text(message.text)
 	if not ip:
-		bot.send_message(message.chat.id, 'Используйте комманду /ping 127.0.0.1: ')
+		bot.send_message(message.chat.id, 'Use command /ping 127.0.0.1')
 	else:
 		resource = os.system("ping -c 1 -w 1 " + ip)
 		if resource == 0:
@@ -65,11 +65,11 @@ def handle_file(message):
                 src='/tmp/'+message.document.file_name;
                 with open(src, 'wb') as new_file:
                     new_file.write(downloaded_file)
-                bot.reply_to(message,"Added\n"+src)
+                bot.reply_to(message,"File added")
                 imp = Importer(src, config.zabbix_user, config.zabbix_pass, config.zabbix_api)
                 imp.create_host()
                 os.remove(src)
-                bot.reply_to(message, imp.debug)
+                bot.reply_to(message,"Done")
             else:
                 bot.reply_to(message, "What is it?")
         else:
