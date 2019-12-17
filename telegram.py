@@ -6,9 +6,14 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 #import logging
 
 SHOW_BTN = False
+PROXY = False
 
 #logger = telebot.logger
 #telebot.logger.setLevel(logging.DEBUG)
+
+if PROXY:
+	from telebot import apihelper
+	apihelper.proxy = {'https': 'socks5h://user:pass@ip'}
 
 BOT_TOKEN=''
 DESTINATION=sys.argv[1]
